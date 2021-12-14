@@ -1,5 +1,5 @@
 {
-  "name": "@xd-cn/com.xd.cn.payment",
+  "name": "com.xd.cn.payment",
   "version": "6.0.0",
   "description": "XD-Cn Payment",
   "unity": "2018.3",

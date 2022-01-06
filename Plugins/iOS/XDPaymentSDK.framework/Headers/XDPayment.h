@@ -2,9 +2,9 @@
 #import <Foundation/Foundation.h>
 
 
-@class XDGProductInfo;
-@class XDGTransactionInfo;
-@class XDGOrderInfo;
+@class XDProductInfo;
+@class XDTransactionInfo;
+@class XDOrderInfo;
 NS_ASSUME_NONNULL_BEGIN
 
 
@@ -17,27 +17,27 @@ typedef NS_ENUM(NSInteger,XDGRepayMentCode) {
  @param result the result contains info of the products
  @param error error, if any.
  */
-typedef void(^XDGQueryProductsCallback)(NSArray<XDGProductInfo *> *_Nullable result,NSError *_Nullable error);
+typedef void(^XDGQueryProductsCallback)(NSArray<XDProductInfo *> *_Nullable result,NSError *_Nullable error);
 
 /**
  Describes the call back to the query of unfinished transactions
 @param result the result contains unfinished transactions
  */
-typedef void(^XDGQueryRestoreProductsCallback)(NSArray<XDGTransactionInfo *> *result);
+typedef void(^XDGQueryRestoreProductsCallback)(NSArray<XDTransactionInfo *> *result);
 
 /**
  Describes the call back to the transaction
 @param orderInfo info of the transaction
 @param error error, if any.
  */
-typedef void(^XDGPaymentCallback)(XDGOrderInfo *orderInfo,NSError *error);
+typedef void(^XDGPaymentCallback)(XDOrderInfo *orderInfo,NSError *error);
 
 
 
 typedef void(^XDGRePaymentCallback)(XDGRepayMentCode code,NSString * _Nullable msg,NSDictionary *_Nullable data);
 
 
-@interface XDGPayment : NSObject
+@interface XDPayment : NSObject
 /// 查询商品价格,请等待回调之后再做下一次查询，否则可能造成数据错乱
 /// @param productIds 商品ID集合
 /// @param completionHandler 查询结果处理
@@ -68,7 +68,7 @@ typedef void(^XDGRePaymentCallback)(XDGRepayMentCode code,NSString * _Nullable m
 /// @param serverId 服务器ID
 /// @param ext 支付EXT信息
 /// @param completionHandler 回调处理
-+ (void)restorePurchase:(XDGTransactionInfo *)restoreTransaction
++ (void)restorePurchase:(XDTransactionInfo *)restoreTransaction
                 orderId:(NSString *)orderId
                  roleId:(NSString *)roleId
                serverId:(NSString *)serverId

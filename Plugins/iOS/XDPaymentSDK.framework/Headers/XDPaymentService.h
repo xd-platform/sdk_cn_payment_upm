@@ -1,6 +1,6 @@
 //
 //  XDPaymentService.h
-//  XDGPaymentSDK
+//  XDPaymentSDK
 //
 //  Created by JiangJiahao on 2020/11/23.
 // unity 桥接

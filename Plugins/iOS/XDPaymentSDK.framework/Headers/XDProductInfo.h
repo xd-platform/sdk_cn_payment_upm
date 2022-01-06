@@ -3,7 +3,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface XDGProductInfo : NSObject
+@interface XDProductInfo : NSObject
 @property(nonatomic,strong,readonly) NSString *localizedDescription;
 
 @property(nonatomic,strong,readonly) NSString *localizedTitle;

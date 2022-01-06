@@ -3,7 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /** TDSGlobal 平台订单信息 */
-@interface XDGOrderInfo : NSObject
+@interface XDOrderInfo : NSObject
 /// 游戏侧订单号
 @property (nonatomic,copy,readonly) NSString *outTradeNo;
 /// 商品 ID
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 当前订单价格
 @property (nonatomic,strong,readonly) NSDecimalNumber *price;
 
-+ (XDGOrderInfo *)createOrderInfo:(NSDictionary *)orderInfo;
++ (XDOrderInfo *)createOrderInfo:(NSDictionary *)orderInfo;
 @end
 
 NS_ASSUME_NONNULL_END

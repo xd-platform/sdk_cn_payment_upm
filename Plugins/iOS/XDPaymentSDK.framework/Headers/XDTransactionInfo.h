@@ -3,7 +3,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface XDGTransactionInfo : NSObject
+@interface XDTransactionInfo : NSObject
 // The unique server-provided identifier
 @property (nonatomic,strong,readonly) NSString *transactionIdentifier;
 

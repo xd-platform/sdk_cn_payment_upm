@@ -34,6 +34,7 @@ namespace XD.Cn.Payment
 
         public void QueryWithProductIds(string[] productIds, Action<XDSkuDetailInfo> callback)
         {
+#if UNITY_IOS
             var dic = new Dictionary<string, object>
             {
                 { "productIds", productIds }
@@ -51,11 +52,13 @@ namespace XD.Cn.Payment
                 XDTool.Log("queryWithProductIds 方法结果: " + result.ToJSON());
                 callback(new XDSkuDetailInfo(result.content));
             });
+#endif   
         }
 
         public void PayWithProduct(string orderId, string productId, string roleId, string serverId, string ext,
             Action<XDOrderInfoWrapper> callback)
         {
+#if UNITY_IOS
             var dic = new Dictionary<string, object>
             {
                 { "orderId", orderId },
@@ -79,33 +82,12 @@ namespace XD.Cn.Payment
 
                     callback(new XDOrderInfoWrapper(result.content));
                 });
+#endif
         }
 
-        public void PayWithWeb(string serverId, string roleId, Action<XDError> callback)
+        public void QueryRestoredPurchases(Action<List<XDRestoredPurchase>> callback)
         {
-            var dic = new Dictionary<string, object>
-            {
-                { "serverId", serverId },
-                { "roleId", roleId }
-            };
-            var command = new Command.Builder()
-                .Service(XDG_PAYMENT_SERVICE)
-                .Method("payWithWeb")
-                .Args(dic)
-                .Callback(true)
-                .CommandBuilder();
-            EngineBridge.GetInstance()
-                .CallHandler(command, result =>
-                {
-                    XDTool.Log("PayWithWeb 方法结果: " + result.ToJSON());
-                    callback(!XDTool.checkResultSuccess(result)
-                        ? new XDError(result.code, result.message)
-                        : new XDError(result.content));
-                });
-        }
-
-        public void QueryRestoredPurchase(Action<List<XDRestoredPurchase>> callback)
-        {
+#if UNITY_IOS
             var command = new Command.Builder()
                 .Service(XDG_PAYMENT_SERVICE)
                 .Method("queryRestoredPurchases")
@@ -124,36 +106,12 @@ namespace XD.Cn.Payment
 
                     callback(new XDRestoredPurchaseWrapper(result.content).transactionList);
                 });
-        }
-
-        public void RestorePurchase(string purchaseToken, string orderId, string productId, string roleId,
-            string serverId, string ext, Action<XDOrderInfoWrapper> callback)
-        {
-            var dic = new Dictionary<string, object>
-            {
-                { "purchaseToken", purchaseToken },
-                { "productId", productId },
-                { "orderId", orderId },
-                { "roleId", roleId },
-                { "serverId", serverId },
-                { "ext", ext }
-            };
-            var command = new Command.Builder()
-                .Service(XDG_PAYMENT_SERVICE)
-                .Method("restorePurchase")
-                .Args(dic)
-                .Callback(true)
-                .CommandBuilder();
-
-            EngineBridge.GetInstance().CallHandler(command, (result) =>
-            {
-                XDTool.Log("RestorePurchase 方法结果: " + result.ToJSON());
-                callback(new XDOrderInfoWrapper(result.content));
-            });
+#endif
         }
 
         public void CheckRefundStatus(Action<XDRefundResultWrapper> callback)
         {
+#if UNITY_IOS
             var command = new Command.Builder()
                 .Service(XDG_PAYMENT_SERVICE)
                 .Method("checkRefundStatus")
@@ -165,10 +123,12 @@ namespace XD.Cn.Payment
                 XDTool.Log("CheckRefundStatus result: " + result.ToJSON());
                 callback(new XDRefundResultWrapper(result.content));
             });
+#endif            
         }
 
         public void CheckRefundStatusWithUI(Action<XDRefundResultWrapper> callback)
         {
+#if UNITY_IOS            
             var command = new Command.Builder()
                 .Service(XDG_PAYMENT_SERVICE)
                 .Method("checkRefundStatusWithUI")
@@ -181,6 +141,42 @@ namespace XD.Cn.Payment
                     XDTool.Log("CheckRefundStatusWithUI result: " + result.ToJSON());
                     callback(new XDRefundResultWrapper(result.content));
                 });
+#endif
+        }
+        
+        public void AndroidPay(string orderId, string productId, string roleId, string serverId, string ext,
+            Action<int, string> callback){
+#if UNITY_ANDROID
+            var dic = new Dictionary<string, object>
+            {
+                { "orderId", orderId },
+                { "productId", productId },
+                { "roleId", roleId },
+                { "serverId", serverId },
+                { "ext", ext }
+            };
+
+            var command = new Command.Builder()
+                .Service(XDG_PAYMENT_SERVICE)
+                .Method("pay")
+                .Args(dic)
+                .Callback(true)
+                .CommandBuilder();
+
+            EngineBridge.GetInstance().CallHandler(command,
+                (result) => {
+                    XDTool.Log("安卓 pay 方法结果: " + result.ToJSON());
+                    if (XDTool.checkResultSuccess(result)){
+                        Dictionary<string, object> resultDic = Json.Deserialize(result.content) as Dictionary<string, object>;
+                            int code = SafeDictionary.GetValue<int>(resultDic, "code");
+                            string message = SafeDictionary.GetValue<string>(resultDic, "message");
+                            callback(code, message);
+                    } else {
+                        callback(-100, "解析result失败");
+                        XDTool.LogError(result.ToJSON());
+                    }
+                });
+#endif
         }
     }
 }

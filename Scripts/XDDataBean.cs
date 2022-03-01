@@ -8,7 +8,7 @@ namespace XD.Cn.Payment
 {
     public class XDSkuDetailInfo
     {
-        public XDError XdError;
+        public XDError xdgError;
 
         public List<SkuDetailBean> skuDetailList;
 
@@ -18,7 +18,7 @@ namespace XD.Cn.Payment
             var errorDic = SafeDictionary.GetValue<Dictionary<string, object>>(dic, "error");
             if (errorDic != null)
             {
-                XdError = new XDError(errorDic);
+                xdgError = new XDError(errorDic);
             }
 
             var list = SafeDictionary.GetValue<List<object>>(dic, "products");
@@ -279,7 +279,7 @@ namespace XD.Cn.Payment
 #endif
     public class XDOrderInfoWrapper
     {
-        public XDError XdError;
+        public XDError xdgError;
         public XDOrderInfo orderInfo;
 
         public XDOrderInfoWrapper(string jsonStr)
@@ -288,7 +288,7 @@ namespace XD.Cn.Payment
             var errorDic = SafeDictionary.GetValue<Dictionary<string, object>>(dic, "error");
             if (errorDic != null)
             {
-                XdError = new XDError(errorDic);
+                xdgError = new XDError(errorDic);
             }
 
             var orderInfoDic = SafeDictionary.GetValue<Dictionary<string, object>>(dic, "orderInfo");
@@ -322,7 +322,7 @@ namespace XD.Cn.Payment
 
     public class XDRefundResultWrapper
     {
-        public XDError XdError;
+        public XDError xdgError;
         public List<XDRefundDetails> refundList;
 
         public XDRefundResultWrapper(string jsonStr)
@@ -333,7 +333,7 @@ namespace XD.Cn.Payment
             var msg = SafeDictionary.GetValue<string>(dic, "msg");
             if (code != Result.RESULT_SUCCESS)
             {
-                XdError = new XDError(code, msg);
+                xdgError = new XDError(code, msg);
             }
             else
             {

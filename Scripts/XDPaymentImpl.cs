@@ -145,7 +145,7 @@ namespace XD.Cn.Payment
         }
         
         public void AndroidPay(string orderId, string productId, string roleId, string serverId, string ext,
-            Action<int, string> callback){
+            Action<AndroidPayResultType, string> callback){
 #if UNITY_ANDROID
             var dic = new Dictionary<string, object>
             {
@@ -170,9 +170,17 @@ namespace XD.Cn.Payment
                         Dictionary<string, object> resultDic = Json.Deserialize(result.content) as Dictionary<string, object>;
                             int code = SafeDictionary.GetValue<int>(resultDic, "code");
                             string message = SafeDictionary.GetValue<string>(resultDic, "message");
-                            callback(code, message);
+                            if (code == 0){
+                                callback(AndroidPayResultType.Success, "支付成功");
+                            }else if (code == 1){
+                                callback(AndroidPayResultType.Cancel, "支付取消");
+                            }else if (code == 2){
+                                callback(AndroidPayResultType.Processing, "支付处理中");
+                            }else {
+                                callback(AndroidPayResultType.Error, "支付失败 "+message);
+                            }
                     } else {
-                        callback(-100, "解析result失败");
+                        callback(AndroidPayResultType.Error, "支付失败:解析result失败");
                         XDTool.LogError(result.ToJSON());
                     }
                 });

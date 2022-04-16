@@ -32,9 +32,16 @@ namespace XD.Cn.Payment
             XDPaymentImpl.GetInstance().CheckRefundStatusWithUI(callback);
         }
 
-        public static void AndroidPay(string orderId, string productId, string roleId, string serverId, string ext,
+        public static void AndroidPay(
+            string orderId,
+            string productId, 
+            string productName,
+            double payAmount, 
+            string roleId,
+            string serverId, 
+            string ext,
             Action<AndroidPayResultType, string> callback){
-            XDPaymentImpl.GetInstance().AndroidPay(orderId, productId, orderId, serverId, ext, callback);
+            XDPaymentImpl.GetInstance().AndroidPay(orderId, productId, productName, payAmount,roleId, serverId, ext, callback);
         }
     }
 }

@@ -11,6 +11,6 @@ namespace XD.Cn.Payment
         void QueryRestoredPurchases(Action<List<XDRestoredPurchase>> callback);
         void CheckRefundStatus(Action<XDRefundResultWrapper> callback);
         void CheckRefundStatusWithUI(Action<XDRefundResultWrapper> callback);
-        void AndroidPay(string orderId, string productId, string roleId, string serverId, string ext, Action<AndroidPayResultType, string> callback);
+        void AndroidPay(string orderId, string productId, string productName, double payAmount, string roleId, string serverId, string ext, Action<AndroidPayResultType, string> callback);
     }
 }

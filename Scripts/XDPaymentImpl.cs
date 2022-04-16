@@ -144,13 +144,22 @@ namespace XD.Cn.Payment
 #endif
         }
         
-        public void AndroidPay(string orderId, string productId, string roleId, string serverId, string ext,
+        public void AndroidPay(
+            string orderId,
+            string productId, 
+            string productName,
+            double payAmount,
+            string roleId, 
+            string serverId,
+            string ext,
             Action<AndroidPayResultType, string> callback){
 #if UNITY_ANDROID
             var dic = new Dictionary<string, object>
             {
                 { "orderId", orderId },
                 { "productId", productId },
+                { "productName", productName },
+                { "payAmount", payAmount },
                 { "roleId", roleId },
                 { "serverId", serverId },
                 { "ext", ext }

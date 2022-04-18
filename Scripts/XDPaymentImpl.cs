@@ -180,13 +180,13 @@ namespace XD.Cn.Payment
                             int code = SafeDictionary.GetValue<int>(resultDic, "code");
                             string message = SafeDictionary.GetValue<string>(resultDic, "message");
                             if (code == 0){
-                                callback(AndroidPayResultType.Success, "支付成功");
+                                callback(AndroidPayResultType.OK, "支付完成");
                             }else if (code == 1){
                                 callback(AndroidPayResultType.Cancel, "支付取消");
                             }else if (code == 2){
                                 callback(AndroidPayResultType.Processing, "支付处理中");
                             }else {
-                                callback(AndroidPayResultType.Error, "支付失败 "+message);
+                                callback(AndroidPayResultType.Error, message);
                             }
                     } else {
                         callback(AndroidPayResultType.Error, "支付失败:解析result失败");

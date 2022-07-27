@@ -34,7 +34,7 @@ namespace XD.Cn.Payment
 
         public static void AndroidPay(string orderId, string productId, string roleId, string serverId, string ext,
             Action<AndroidPayResultType, string> callback){
-            XDPaymentImpl.GetInstance().AndroidPay(orderId, productId, orderId, serverId, ext, callback);
+            XDPaymentImpl.GetInstance().AndroidPay(orderId, productId, roleId, serverId, ext, callback);
         }
     }
 }
